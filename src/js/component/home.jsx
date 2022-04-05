@@ -1,10 +1,20 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 //include images into your bundle
-import rigoImage from "../../img/rigo-baby.jpg";
 
 //create your first component
 const Home = () => {
+	const [todoList, setToList] = useState([]);
+	const [listItem, setListItem] = useState([]);
+
+	const addItem = (newItem) => {
+		let newlist = [...todoList, { label: newItem, done: false }];
+	};
+	fetch("LIHK", {
+		method: "PUT",
+		headers: {},
+	});
+
 	return (
 		<div>
 			<h1 className="text-center mt-5">Hello Rigo!</h1>
