@@ -6,11 +6,53 @@ import React, { useState } from "react";
 const Home = () => {
 	const [todoList, setToList] = useState([]);
 	const [listItem, setListItem] = useState("");
+
+	const addItem = (list) => {
+		const addList = [...todoList, { label: list, done: false }];
+
+		fetch("https://assets.breatheco.de/apis/fake/todos/user/astronaut", {
+			method: "PUT",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify(addList),
+			redirect: "follow",
+		})
+			.then((response) => {
+				response.status === 200 ? setToList(addList) : "";
+			})
+			.catch((error) => console.log("error", error));
+	};
 	console.log(todoList);
 	const Delete = (fill) => {
 		const del = todoList.filter((item, i) => fill !== i);
 		setToList(del);
+
+		fetch("https://assets.breatheco.de/apis/fake/todos/user/astronaut", {
+			method: "PUT",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify(del),
+			redirect: "follow",
+		})
+			.then((response) => {
+				response.status === 200 ? setToList(del) : "";
+			})
+			.catch((error) => console.log("error", error));
 	};
+	var requestOptions = {
+		method: "GET",
+		redirect: "follow",
+	};
+
+	fetch(
+		"https://assets.breatheco.de/apis/fake/todos/user/astronaut",
+		requestOptions
+	)
+		.then((response) => response.text())
+		.then((result) => console.log(result))
+		.catch((error) => console.log("error", error));
 	return (
 		<>
 			<div>
@@ -26,6 +68,7 @@ const Home = () => {
 						if (listItem !== "") {
 							setToList([...todoList, listItem]);
 							setListItem("");
+							addItem(listItem);
 						}
 					}}>
 					add
@@ -35,7 +78,7 @@ const Home = () => {
 				{todoList.map((item, index) => {
 					return (
 						<li key={index}>
-							{item}
+							{item.label}
 							<a
 								className="btn btn-danger"
 								onClick={() => {
