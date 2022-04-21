@@ -26,7 +26,6 @@ const Home = () => {
 	console.log(todoList);
 	const Delete = (fill) => {
 		const del = todoList.filter((item, i) => fill !== i);
-		setToList(del);
 
 		fetch("https://assets.breatheco.de/apis/fake/todos/user/astronaut", {
 			method: "PUT",
@@ -50,7 +49,7 @@ const Home = () => {
 		"https://assets.breatheco.de/apis/fake/todos/user/astronaut",
 		requestOptions
 	)
-		.then((response) => response.text())
+		.then((response) => response.json())
 		.then((result) => console.log(result))
 		.catch((error) => console.log("error", error));
 	return (
